@@ -1,0 +1,362 @@
+{
+    "aeropuerto": {
+        "codigo": "MAD-AIR",
+        "nombre": "Adolfo Suárez Madrid-Barajas",
+        "versionConfiguracion": "2.1",
+        "ultimaActualizacion": "2026-10-09",
+        "monedaBase": "EUR",
+        "zonaHoraria": "Europe/Madrid",
+        "idiomas": [
+            "es",
+            "en",
+            "fr",
+            "de"
+        ],
+        "terminales": [
+            {
+                "codigo": "T1",
+                "estado": "OPERATIVA",
+                "puertas": {
+                    "min": "A01",
+                    "max": "A24"
+                },
+                "servicios": [
+                    "CHECKIN",
+                    "SEGURIDAD",
+                    "EMBARQUE"
+                ]
+            },
+            {
+                "codigo": "T2",
+                "estado": "OPERATIVA",
+                "puertas": {
+                    "min": "B01",
+                    "max": "B18"
+                },
+                "servicios": [
+                    "CHECKIN",
+                    "SEGURIDAD",
+                    "EMBARQUE",
+                    "ASISTENCIA"
+                ]
+            },
+            {
+                "codigo": "T4",
+                "estado": "OPERATIVA",
+                "puertas": {
+                    "min": "D01",
+                    "max": "D32"
+                },
+                "servicios": [
+                    "CHECKIN",
+                    "SEGURIDAD",
+                    "EMBARQUE",
+                    "VIP",
+                    "ASISTENCIA"
+                ]
+            }
+        ],
+        "equipaje": {
+            "reglas": [
+                {
+                    "tipo": "FACTURADO",
+                    "pesoMaximo": 23,
+                    "costeExcesoKg": 12.5,
+                    "unidad": "kg",
+                    "permiteCabina": false,
+                    "etiquetado": {
+                        "obligatorio": true,
+                        "formato": "BAG-{CODIGO}"
+                    }
+                },
+                {
+                    "tipo": "MANO",
+                    "pesoMaximo": 10,
+                    "costeExcesoKg": 20.0,
+                    "unidad": "kg",
+                    "permiteCabina": true,
+                    "dimensionesMaximas": {
+                        "alto": 55,
+                        "ancho": 40,
+                        "fondo": 20,
+                        "unidad": "cm"
+                    }
+                },
+                {
+                    "tipo": "ESPECIAL",
+                    "pesoMaximo": 32,
+                    "costeExcesoKg": 18.0,
+                    "unidad": "kg",
+                    "permiteCabina": false,
+                    "requiereAutorizacion": true,
+                    "categorias": [
+                        "DEPORTIVO",
+                        "INSTRUMENTO",
+                        "MOVILIDAD"
+                    ]
+                }
+            ],
+            "estadosPermitidos": [
+                "REGISTRADO",
+                "CARGADO",
+                "EN_TRANSITO",
+                "ENTREGADO",
+                "PERDIDO"
+            ],
+            "prioridades": {
+                "NORMAL": 1,
+                "PRIORITARIO": 2,
+                "FRAGIL": 3
+            },
+            "incidencias": {
+                "equipajePerdido": {
+                    "plazoReclamacionHoras": 24,
+                    "indemnizacionMaxima": 1500,
+                    "requiereParte": true
+                },
+                "equipajeDañado": {
+                    "plazoReclamacionHoras": 12,
+                    "requiereFotografias": true
+                }
+            }
+        },
+        "vuelos": {
+            "retrasos": {
+                "niveles": [
+                    {
+                        "nombre": "LEVE",
+                        "minutosMinimos": 1,
+                        "minutosMaximos": 59,
+                        "notificarPasajeros": false
+                    },
+                    {
+                        "nombre": "GRAVE",
+                        "minutosMinimos": 60,
+                        "minutosMaximos": 119,
+                        "notificarPasajeros": true
+                    },
+                    {
+                        "nombre": "CRITICO",
+                        "minutosMinimos": 120,
+                        "minutosMaximos": 999,
+                        "notificarPasajeros": true,
+                        "activarAsistencia": true
+                    }
+                ],
+                "causas": [
+                    "METEOROLOGIA",
+                    "AVERIA",
+                    "OPERACIONES",
+                    "CONTROL_AEREO",
+                    "OTRAS"
+                ]
+            },
+            "ocupacion": {
+                "alerta": 95,
+                "maxima": 100,
+                "contarReservas": [
+                    "CONFIRMADA"
+                ],
+                "excluirEstados": [
+                    "CANCELADA"
+                ]
+            },
+            "estadosPermitidos": [
+                "PROGRAMADO",
+                "RETRASADO",
+                "CANCELADO",
+                "EMBARCANDO",
+                "CERRADO"
+            ],
+            "cambiosPuerta": {
+                "permitidos": true,
+                "avisarConMinutos": 20,
+                "canales": [
+                    "PANTALLAS",
+                    "APP",
+                    "SMS"
+                ]
+            },
+            "ventanasOperacion": {
+                "aperturaMinutosAntes": 180,
+                "cierreMinutosDespues": 60
+            }
+        },
+        "embarque": {
+            "franjas": [
+                {
+                    "tipo": "NACIONAL",
+                    "inicioMinutosAntes": 45,
+                    "cierreMinutosAntes": 15,
+                    "prioridad": {
+                        "menores": true,
+                        "movilidadReducida": true
+                    }
+                },
+                {
+                    "tipo": "INTERNACIONAL",
+                    "inicioMinutosAntes": 60,
+                    "cierreMinutosAntes": 20,
+                    "prioridad": {
+                        "menores": true,
+                        "movilidadReducida": true,
+                        "business": true
+                    }
+                }
+            ],
+            "estadosPermitidos": [
+                "PENDIENTE",
+                "EMBARCANDO",
+                "EMBARCADO",
+                "NO_EMBARCADO"
+            ],
+            "validaciones": {
+                "requiereReservaConfirmada": true,
+                "unEmbarquePorReserva": true,
+                "bloquearSiVueloCancelado": true
+            }
+        },
+        "reservas": {
+            "clases": [
+                {
+                    "nombre": "ECONOMICA",
+                    "factorPrecio": 1.0,
+                    "equipajeIncluido": 1,
+                    "cambiosPermitidos": true
+                },
+                {
+                    "nombre": "BUSINESS",
+                    "factorPrecio": 1.75,
+                    "equipajeIncluido": 2,
+                    "cambiosPermitidos": true
+                },
+                {
+                    "nombre": "PRIMERA",
+                    "factorPrecio": 2.5,
+                    "equipajeIncluido": 3,
+                    "cambiosPermitidos": false
+                }
+            ],
+            "estadosPermitidos": [
+                "CONFIRMADA",
+                "CANCELADA"
+            ],
+            "canales": [
+                "WEB",
+                "APP",
+                "TAQUILLA",
+                "AGENCIA"
+            ],
+            "politicaCambios": {
+                "limiteCambios": 2,
+                "requiereConfirmacion": true,
+                "registrarAuditoria": true
+            },
+            "asientos": {
+                "permitirDuplicadosPorVuelo": false,
+                "zonas": [
+                    "VENTANA",
+                    "PASILLO",
+                    "CENTRO"
+                ],
+                "salidasEmergencia": {
+                    "edadMinima": 16,
+                    "requiereAceptacion": true
+                }
+            }
+        },
+        "pasajeros": {
+            "tipos": [
+                "ADULTO",
+                "MENOR",
+                "VIP"
+            ],
+            "validaciones": {
+                "dniObligatorioAdultos": true,
+                "emailObligatorio": false,
+                "edadMinimaMenor": 0,
+                "edadMaximaMenor": 17
+            },
+            "asistencia": {
+                "tipos": [
+                    "MOVILIDAD_REDUCIDA",
+                    "MENOR_NO_ACOMPAÑADO",
+                    "ASISTENCIA_MEDICA"
+                ],
+                "anticipacionMinutos": 90
+            }
+        },
+        "tarifas": [
+            {
+                "tipo": "CAMBIO_RESERVA",
+                "condiciones": {
+                    "menosDeHoras": 24,
+                    "coste": 50.0,
+                    "moneda": "EUR"
+                }
+            },
+            {
+                "tipo": "EXCESO_EQUIPAJE",
+                "condiciones": {
+                    "menosDeHoras": 48,
+                    "coste": 12.5,
+                    "moneda": "EUR"
+                }
+            },
+            {
+                "tipo": "CANCELACION",
+                "condiciones": {
+                    "menosDeHoras": 12,
+                    "porcentajeReembolso": 0,
+                    "moneda": "EUR"
+                }
+            },
+            {
+                "tipo": "ASISTENCIA_ESPECIAL",
+                "condiciones": {
+                    "requiereAutorizacion": true,
+                    "coste": 35.0,
+                    "moneda": "EUR"
+                }
+            }
+        ],
+        "notificaciones": {
+            "canales": [
+                "EMAIL",
+                "SMS",
+                "APP"
+            ],
+            "eventos": [
+                "RETRASO",
+                "CANCELACION",
+                "CAMBIO_PUERTA",
+                "INICIO_EMBARQUE",
+                "CIERRE_EMBARQUE"
+            ],
+            "reintentos": {
+                "maximos": 3,
+                "esperaSegundos": [
+                    10,
+                    30,
+                    90
+                ]
+            },
+            "plantillas": {
+                "idiomaPorDefecto": "es",
+                "permitirPersonalizacion": true
+            }
+        },
+        "auditoria": {
+            "habilitada": true,
+            "eventos": [
+                "ALTA_RESERVA",
+                "CAMBIO_RESERVA",
+                "CANCELACION_RESERVA",
+                "CAMBIO_ESTADO_VUELO",
+                "CAMBIO_PUERTA"
+            ],
+            "retencionDias": 365,
+            "anonimizarDatosTrasDias": 730
+        }
+    }
+}

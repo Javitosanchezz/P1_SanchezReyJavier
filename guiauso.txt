@@ -1,0 +1,151 @@
+
+GUÍA DE USO – GESTIÓN DEL AEROPUERTO
+
+1.  REQUISITOS Y DEPENDENCIAS
+
+La clase principal es Aeropuerto. Los ficheros de trabajo se encuentran
+en la carpeta datos:
+
+-   pasajeros.csv
+-   reservas.csv
+-   equipajes.csv
+-   embarques.csv
+-   incidencias.txt
+-   aeropuerto.xml
+-   configuracion.json
+
+El fichero de incidencias es incidencias.txt y utiliza el carácter |
+como separador.
+
+2.  MENÚ PRINCIPAL
+
+Al iniciar la aplicación aparece el siguiente menú:
+
+    1. Gestión de pasajeros
+    2. Gestión de vuelos
+    3. Gestión de reservas
+    4. Gestión de equipajes
+    5. Gestión de embarques
+    6. Gestión de incidencias
+    7. Gestión de configuración
+    8. Operativa del aeropuerto
+    9. Cuadro de mando e informes
+    0. Salir
+
+Si se introduce un valor que no sea numérico, el menú principal muestra
+el aviso correspondiente sin cerrar el programa por una excepción. Los
+distintos apartados permiten volver al menú principal o salir de ellos.
+
+3.  FORMATOS DE LOS FICHEROS
+
+Los archivos CSV no incluyen una primera fila de cabecera. Cada registro
+debe respetar el siguiente orden de campos:
+
+-   pasajeros.csv: codigo, nombre, apellidos, documento, pais, email,
+    tipo.
+-   reservas.csv: codigo, codigoPasajero, codigoVuelo, asiento, clase,
+    precio, moneda, estado, fecha, canal.
+-   equipajes.csv: codigo, codigoReserva, peso, tipo, estado, prioridad.
+-   embarques.csv: codigo, codigoReserva, fechaHora, puerta, estado,
+    observaciones.
+
+Las incidencias tienen ocho campos separados por |:
+
+    fecha|codigo|vuelo|tipo|duracion|descripcion|prioridad|estado
+
+Las fechas de las reservas se introducen como AAAA-MM-DD. Para los
+embarques se utiliza AAAA-MM-DDThh:mm.
+
+No se deben introducir comas, barras verticales ni saltos de línea
+dentro de los campos, ya que podrían alterar la estructura de los
+ficheros. Las observaciones de un embarque sí pueden dejarse vacías; aun
+así, debe mantenerse la última posición del registro.
+
+La aplicación comprueba los estados y tipos permitidos según el
+enunciado y la configuración. En concreto, los tipos de pasajero son
+ADULTO, VIP y MENOR; las reservas pueden estar CONFIRMADA o CANCELADA, y
+los canales disponibles son WEB, APP, TAQUILLA y AGENCIA.
+
+4.  DIFERENCIA ENTRE CANCELAR Y BORRAR
+
+Cancelar una reserva no significa eliminarla. Esta operación se
+encuentra en la opción 5 del menú de reservas y cambia su estado a
+CANCELADA, manteniendo el registro completo con sus diez campos.
+
+Los equipajes y embarques asociados no se borran ni se modifican
+automáticamente. Se muestran para que puedan consultarse o gestionarse
+por separado.
+
+El borrado, en cambio, elimina físicamente el registro. Por seguridad,
+no se permite borrar un pasajero que todavía tenga reservas. Las
+operaciones de borrado de reservas, equipajes y embarques utilizan
+ficheros temporales y deben conservar el original si se produce algún
+error durante la reconstrucción.
+
+5.  GESTIÓN DE LA CONFIGURACIÓN
+
+Desde el menú 7 se puede mostrar el contenido del JSON, consultar
+parámetros mediante rutas JSON Pointer, modificar valores escalares y
+borrar parámetros opcionales.
+
+Algunos ejemplos de rutas son:
+
+    /aeropuerto/zonaHoraria
+    /aeropuerto/equipaje/reglas/0/pesoMaximo
+    /aeropuerto/reservas/canales/0
+
+Los cambios se guardan en datos/configuracion.json y se aplican a las
+operaciones posteriores. No deben eliminarse parámetros necesarios para
+validar datos o realizar cálculos de la operativa.
+
+6.  CUADRO DE MANDO Y EXPORTACIONES
+
+El menú 9 incluye el resumen general, la ocupación por vuelo, la
+generación de informes y el diagnóstico de datos.
+
+Para calcular la ocupación solo se tienen en cuenta las reservas
+CONFIRMADA. Las plazas libres y la sobreventa se calculan de esta forma:
+
+    Plazas libres = max(capacidad - reservas confirmadas, 0)
+    Sobreventa   = max(reservas confirmadas - capacidad, 0)
+
+La opción 9.3 genera dos informes CSV dentro de la carpeta datos. Se
+crean sin cabecera. Si ya existe un informe con el mismo nombre, se
+añade un sufijo numérico (_1, _2, etc.) para evitar sobrescribirlo.
+
+Informe de ocupación: informes_ocupacion.csv
+
+Los campos aparecen en este orden:
+
+1.  Código del vuelo.
+2.  Capacidad de pasajeros del avión.
+3.  Número de reservas confirmadas contabilizadas.
+4.  Plazas libres.
+5.  Sobreventa.
+
+Ejemplo:
+
+    IB4512,220,3,217,0
+
+La capacidad se obtiene de Avion/Capacidad/Pasajeros. El número de
+confirmadas procede de las reservas asociadas al vuelo; las plazas
+libres y la sobreventa se calculan con las fórmulas anteriores.
+
+Informe de exceso de equipaje: informes_equipajes_exceso.csv
+
+Los campos se guardan en este orden:
+
+1.  Código del equipaje.
+2.  Código de la reserva.
+3.  Peso registrado.
+4.  Tipo de equipaje.
+5.  Límite pesoMaximo configurado.
+6.  Diferencia entre el peso y el límite.
+
+Ejemplo:
+
+    EQ0007,R0002,27.5,FACTURADO,23.0,4.5
+
+Solo se incluyen registros con seis campos, peso numérico y un límite
+conocido que se haya superado. Los tipos desconocidos no se exportan
+como excesos.

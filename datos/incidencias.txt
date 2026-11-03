@@ -1,0 +1,17 @@
+23-07-2027|INC00987|FLY637|Avion|26|Buen vuelo|ALTA|BUENO
+2026-10-15|INC003|IB4512|CAMBIO_PUERTA|0|Cambio de puerta por mantenimiento|MEDIA|CERRADA
+2026-10-15|INC004|FR7890|EQUIPAJE_PERDIDO|0|Equipaje EQ0026 no localizado; reclamacion registrada|ALTA|ABIERTA
+2026-12-30|INC000005|Miami|Avion|234|Vuelo seguro|ALTA|BUENO
+2026-10-15|INC006|LH5678|AVERIA|0|Revision tecnica preventiva|MEDIA|CERRADA
+2026-10-15|INC007|AF2201|EQUIPAJE_PERDIDO|0|Equipaje EQ0061 no localizado; reclamacion registrada|ALTA|ABIERTA
+2026-10-15|INC008|TP4410|RETRASO|125|Incidencia en la preparacion de aeronave|CRITICA|ABIERTA
+2026-10-15|INC009|TP5520|RETRASO|15|Demora en servicio de limpieza|BAJA|CERRADA
+2026-10-15|INC010|FR7821|RETRASO|60|Congestion en plataforma|ALTA|ABIERTA
+2026-10-15|INC011|AF3305|EQUIPAJE_PERDIDO|0|Equipaje EQ0065 no localizado; reclamacion registrada|ALTA|ABIERTA
+2026-10-15|INC012|IB6789|RETRASO|130|Problema operativo en pista|CRITICA|ABIERTA
+2026-10-15|INC013|IB3456|CAMBIO_PUERTA|0|Cambio solicitado por mantenimiento|MEDIA|CERRADA
+2026-10-15|INC014|LH1234|EQUIPAJE_PERDIDO|0|Equipaje EQ0044 no localizado; reclamacion registrada|ALTA|ABIERTA
+2026-10-15|INC015|FR8123|AVERIA|0|Revision del sistema de entretenimiento|BAJA|CERRADA
+2026-10-15|INC016|TP4410|CAMBIO_PUERTA|0|Cambio de puerta por saturacion|ALTA|ABIERTA
+2026-10-15|INC017|AF2201|RETRASO|95|Problema de carga de equipaje|ALTA|ABIERTA
+2026-10-15|INC018|FR7821|EQUIPAJE_PERDIDO|0|Equipaje EQ0031 no localizado; reclamacion registrada|ALTA|ABIERTA
