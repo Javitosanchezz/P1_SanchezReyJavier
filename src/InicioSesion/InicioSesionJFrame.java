@@ -62,12 +62,12 @@ public class InicioSesionJFrame extends JFrame {
 				comprobarregistro();
 			}
 		});
-		btnNewButton.setIcon(new ImageIcon("C:\\Users\\Usuario\\Downloads\\boton_iniciar_sesion_sin_icono_187x52.png"));
+		btnNewButton.setIcon(new ImageIcon(InicioSesionJFrame.class.getResource("/imagenes/boton_iniciar_sesion_sin_icono_187x52.png")));
 		btnNewButton.setBounds(197, 324, 187, 52);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\Usuario\\Downloads\\boton_registrarse_sin_icono_187x52.png"));
+		btnNewButton_1.setIcon(new ImageIcon(InicioSesionJFrame.class.getResource("/imagenes/boton_registrarse_sin_icono_187x52.png")));
 		btnNewButton_1.setBounds(411, 324, 187, 52);
 		contentPane.add(btnNewButton_1);
 		

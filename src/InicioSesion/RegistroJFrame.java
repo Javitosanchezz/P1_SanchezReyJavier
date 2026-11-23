@@ -65,7 +65,7 @@ public class RegistroJFrame extends JFrame {
 			
 			
 		});
-		btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\Usuario\\Downloads\\boton_registrarse_sin_icono_187x52.png"));
+		btnNewButton_1.setIcon(new ImageIcon(RegistroJFrame.class.getResource("/imagenes/boton_registrarse_sin_icono_187x52.png")));
 		btnNewButton_1.setBounds(295, 393, 187, 52);
 		contentPane.add(btnNewButton_1);
 		
