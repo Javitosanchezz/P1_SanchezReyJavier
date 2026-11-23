@@ -28,6 +28,7 @@ public class MostraroBuscarVuelosJFrame extends JFrame {
 			public void run() {
 				try {
 					MostraroBuscarVuelosJFrame frame = new MostraroBuscarVuelosJFrame();
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -78,6 +79,9 @@ public class MostraroBuscarVuelosJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		dispose();
+	    		
+	    		VuelosJFrame vuelos = new VuelosJFrame();
+	    		vuelos.setVisible(true);
 	    		
 	    	}
 	    });

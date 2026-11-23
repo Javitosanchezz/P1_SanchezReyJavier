@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Principal.AeropuertoJFrame;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -61,7 +64,7 @@ public class EmbarquesJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		MostraroBuscarEmbarquesJFrame mostrarobuscar = new MostraroBuscarEmbarquesJFrame();
-	    		
+	    		dispose();
 	    		mostrarobuscar.setVisible(true);
 	    	}
 	    });
@@ -86,6 +89,8 @@ public class EmbarquesJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		dispose();
+	    		AeropuertoJFrame aeropuerto = new AeropuertoJFrame();
+	    		aeropuerto.setVisible(true);
 	    		
 	    	}
 	    });

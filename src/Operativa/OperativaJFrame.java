@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Pasajeros.PasajerosJframe;
+import Principal.AeropuertoJFrame;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -117,7 +118,10 @@ public class OperativaJFrame extends JFrame {
 	    btn_salir.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
-	    		System.exit(0);
+	    		dispose();
+	    		
+	    		AeropuertoJFrame aeropuerto = new AeropuertoJFrame();
+	    		aeropuerto.setVisible(true);
 	    	}
 	    });
 	    OPCIONES.add(btn_salir);

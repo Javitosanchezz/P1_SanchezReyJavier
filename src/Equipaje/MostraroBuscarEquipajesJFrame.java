@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Vuelos.VuelosJFrame;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -78,6 +81,9 @@ public class MostraroBuscarEquipajesJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		dispose();
+	    		
+	    		EquipajeJFrame equipaje = new EquipajeJFrame();
+	    		equipaje.setVisible(true);
 	    		
 	    	}
 	    });

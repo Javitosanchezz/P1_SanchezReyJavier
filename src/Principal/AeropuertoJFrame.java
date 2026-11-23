@@ -76,7 +76,7 @@ public class AeropuertoJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		PasajerosJframe pasajeros = new PasajerosJframe();
-	    		
+	    		dispose();
 	    		pasajeros.setVisible(true);
 	    	}
 	    });
@@ -88,7 +88,7 @@ public class AeropuertoJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		IncidenciasJFrame incidencias = new IncidenciasJFrame();
-	    		
+	    		dispose();
 	    		incidencias.setVisible(rootPaneCheckingEnabled);
 	    	}
 	    });
@@ -100,7 +100,7 @@ public class AeropuertoJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		VuelosJFrame vuelos = new VuelosJFrame();
-	    		
+	    		dispose();
 	    		vuelos.setVisible(true);
 	    	}
 	    });
@@ -112,7 +112,7 @@ public class AeropuertoJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		ConfiguracionJFrame configuracion = new ConfiguracionJFrame();
-	    		
+	    		dispose();
 	    		configuracion.setVisible(true);
 	    	}
 	    });
@@ -124,7 +124,7 @@ public class AeropuertoJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		ReservasJFrame reservas = new ReservasJFrame();
-	    		
+	    		dispose();
 	    		reservas.setVisible(true);
 	    	}
 	    });
@@ -136,7 +136,7 @@ public class AeropuertoJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		OperativaJFrame operativa = new OperativaJFrame();
-	    		
+	    		dispose();
 	    		operativa.setVisible(true);
 	    	}
 	    });
@@ -148,7 +148,7 @@ public class AeropuertoJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		EquipajeJFrame equipajes = new EquipajeJFrame();
-	    		
+	    		dispose();
 	    		equipajes.setVisible(true);
 	    	}
 	    });
@@ -160,7 +160,7 @@ public class AeropuertoJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		CuadroMandosJFrame cuadro = new CuadroMandosJFrame();
-	    		
+	    		dispose();
 	    		cuadro.setVisible(true);
 	    		
 	    	}
@@ -173,7 +173,7 @@ public class AeropuertoJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		EmbarquesJFrame embarques = new EmbarquesJFrame();
-	    		
+	    		dispose();
 	    		embarques.setVisible(true);
 	    	}
 	    });

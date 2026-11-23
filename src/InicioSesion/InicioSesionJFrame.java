@@ -67,6 +67,14 @@ public class InicioSesionJFrame extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				RegistroJFrame registro = new RegistroJFrame();
+				dispose();
+				registro.setVisible(true);
+			}
+		});
 		btnNewButton_1.setIcon(new ImageIcon(InicioSesionJFrame.class.getResource("/imagenes/boton_registrarse_sin_icono_187x52.png")));
 		btnNewButton_1.setBounds(411, 324, 187, 52);
 		contentPane.add(btnNewButton_1);
@@ -129,7 +137,7 @@ public class InicioSesionJFrame extends JFrame {
 					if (usuario.equalsIgnoreCase(datos[0]) && contraseña.equals(datos[1])) {
 						
 						AeropuertoJFrame aeropuerto = new AeropuertoJFrame();
-						
+						dispose();
 						aeropuerto.setVisible(true);
 						encontrado = true;
 						return;

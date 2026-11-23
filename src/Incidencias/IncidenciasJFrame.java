@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Principal.AeropuertoJFrame;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -65,7 +68,7 @@ public class IncidenciasJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		MostraroBuscarIncidenciasJFrame mostrarobuscar = new MostraroBuscarIncidenciasJFrame();
-	    		
+	    		dispose();
 	    		mostrarobuscar.setVisible(true);
 	    	}
 	    });
@@ -90,6 +93,9 @@ public class IncidenciasJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		dispose();
+	    		
+	    		AeropuertoJFrame aeropuerto = new AeropuertoJFrame();
+	    		aeropuerto.setVisible(true);
 	    		
 	    	}
 	    });

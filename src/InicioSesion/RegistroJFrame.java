@@ -66,7 +66,7 @@ public class RegistroJFrame extends JFrame {
 			
 		});
 		btnNewButton_1.setIcon(new ImageIcon(RegistroJFrame.class.getResource("/imagenes/boton_registrarse_sin_icono_187x52.png")));
-		btnNewButton_1.setBounds(295, 393, 187, 52);
+		btnNewButton_1.setBounds(185, 396, 187, 52);
 		contentPane.add(btnNewButton_1);
 		
 		txt_contraseña = new JTextField();
@@ -118,6 +118,21 @@ public class RegistroJFrame extends JFrame {
 		lblerror = new JLabel("");
 		lblerror.setBounds(295, 346, 200, 30);
 		contentPane.add(lblerror);
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				InicioSesionJFrame inicio = new InicioSesionJFrame();
+				dispose();
+				inicio.setVisible(true);
+				
+				
+			}
+		});
+		btnNewButton.setIcon(new ImageIcon(RegistroJFrame.class.getResource("/imagenes/boton_salir_187x52.png")));
+		btnNewButton.setBounds(405, 396, 187, 52);
+		contentPane.add(btnNewButton);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(RegistroJFrame.class.getResource("/imagenes/fondo4.png")));
@@ -178,6 +193,9 @@ public class RegistroJFrame extends JFrame {
 				bufferedwriter.close();
 				filewriter.close();
 				
+				InicioSesionJFrame inicio = new InicioSesionJFrame();
+				inicio.setVisible(true);
+				
 				dispose();
 			}
 			
@@ -191,5 +209,4 @@ public class RegistroJFrame extends JFrame {
 		
 		
 	}
-	
 }

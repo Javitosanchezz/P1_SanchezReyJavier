@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Principal.AeropuertoJFrame;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -14,6 +17,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class ConfiguracionJFrame extends JFrame {
 
@@ -84,6 +88,9 @@ public class ConfiguracionJFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
 	    		dispose();
+	    		
+	    		AeropuertoJFrame aeropuerto = new AeropuertoJFrame();
+	    		aeropuerto.setVisible(true);
 	    		
 	    	}
 	    });
