@@ -3088,9 +3088,9 @@ public class Aeropuerto {
 					
 					String[] datos = linea.split(",", -1);
 					
-					if(respuesta.equalsIgnoreCase(datos[0])) {
+					if(datos.length == 10 && respuesta.equalsIgnoreCase(datos[0])) {
 						
-						linea = datos[0] + "," + respuesta2 + "," + respuesta3 + "," + respuesta4 + "," + respuesta5 + "," + respuesta6 + "," + respuesta7;
+						linea = datos[0] + "," + respuesta2 + "," + respuesta3 + "," + respuesta4 + "," + respuesta5 + "," + respuesta6 + "," + respuesta7 + "," + respuesta8 + "," + respuesta9 + "," + respuesta10;
 					}
 					
 					bufferedwriter.write(linea);
