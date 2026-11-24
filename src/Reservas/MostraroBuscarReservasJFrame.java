@@ -68,7 +68,7 @@ public class MostraroBuscarReservasJFrame extends JFrame {
 	    OPCIONES.add(btn_mostrar);
 	    
 	    JButton btn_buscar = new JButton("Buscar Reservas");
-	    btn_buscar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "reservas.buscar", "Codigo"));
+	    btn_buscar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "reservas.buscar", "Codigo, pasajero o vuelo"));
 	    btn_buscar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_buscar);
 	    

@@ -71,18 +71,21 @@ public class IncidenciasJFrame extends JFrame {
 	    OPCIONES.add(btn_mostrar);
 	    
 	    JButton btn_insertar = new JButton("Insertar Incidencia");
-	    btn_insertar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "incidencias.crear", "Fecha", "Codigo", "Vuelo", "Tipo", "Duracion", "Descripcion", "Prioridad", "Estado"));
+	    btn_insertar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "incidencias.crear", "Fecha", "Codigo", "Vuelo", "Tipo", "Duracion", "Descripcion", "Prioridad"));
 	    btn_insertar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_insertar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_insertar);
 	    
 	    JButton btn_actualizar = new JButton("Actualizar Incidencia");
 	    btn_actualizar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "incidencias.modificar", "Codigo a modificar", "Fecha", "Codigo", "Vuelo", "Tipo", "Duracion", "Descripcion", "Prioridad", "Estado"));
 	    btn_actualizar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_actualizar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_actualizar);
 	    
 	    JButton btn_borrar = new JButton("Borrar Incidencia");
 	    btn_borrar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "incidencias.borrar", "Codigo"));
 	    btn_borrar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_borrar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_borrar);
 	    
 	    JButton btn_salir = new JButton("SALIR");

@@ -68,7 +68,7 @@ public class MostraroBuscarPasajerosJFrame extends JFrame {
 	    OPCIONES.add(btn_mostrar);
 	    
 	    JButton btn_buscar = new JButton("Buscar Pasajero");
-	    btn_buscar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "pasajeros.buscar", "Codigo"));
+	    btn_buscar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "pasajeros.buscar", "Codigo, nombre o apellidos"));
 	    btn_buscar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_buscar);
 	    

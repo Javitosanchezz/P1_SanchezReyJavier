@@ -73,15 +73,32 @@ public class CuadroMandosJFrame extends JFrame {
 	    btn_ocupacion.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "cuadro.ocupacion"));
 	    btn_ocupacion.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_ocupacion);
+
+	    JButton btn_estados = new JButton("Vuelos por estado");
+	    btn_estados.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "cuadro.estados"));
+	    btn_estados.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    OPCIONES.add(btn_estados);
+
+	    JButton btn_incidencias = new JButton("Incidencias por prioridad");
+	    btn_incidencias.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "cuadro.incidencias"));
+	    btn_incidencias.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    OPCIONES.add(btn_incidencias);
+
+	    JButton btn_alertas = new JButton("Alertas del aeropuerto");
+	    btn_alertas.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "cuadro.alertas"));
+	    btn_alertas.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    OPCIONES.add(btn_alertas);
 	    
 	    JButton btn_exportarCSV = new JButton("Exportar informes CSV");
 	    btn_exportarCSV.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "cuadro.exportar"));
 	    btn_exportarCSV.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_exportarCSV.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_exportarCSV);
 	    
 	    JButton btn_diagnostico = new JButton("Diagnostico de datos");
 	    btn_diagnostico.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "cuadro.diagnostico"));
 	    btn_diagnostico.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_diagnostico.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_diagnostico);
 	    
 	    JButton btn_salir = new JButton("SALIR");

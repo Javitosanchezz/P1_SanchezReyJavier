@@ -79,11 +79,13 @@ public class ConfiguracionJFrame extends JFrame {
 	    JButton btn_actualizar = new JButton("Modificar un parametro escalar");
 	    btn_actualizar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "configuracion.modificar", "Ruta JSON Pointer", "Nuevo valor"));
 	    btn_actualizar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_actualizar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_actualizar);
 	    
 	    JButton btn_actualizar_1 = new JButton("Borrar un parametro opcional");
 	    btn_actualizar_1.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "configuracion.borrar", "Ruta JSON Pointer"));
 	    btn_actualizar_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_actualizar_1.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_actualizar_1);
 	    
 	    JButton btn_salir = new JButton("SALIR");

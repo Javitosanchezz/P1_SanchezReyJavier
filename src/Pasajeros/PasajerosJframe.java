@@ -73,16 +73,19 @@ public class PasajerosJframe extends JFrame {
 	    JButton btn_insertar = new JButton("Insertar Pasajero");
 	    btn_insertar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "pasajeros.insertar", "Codigo", "Nombre", "Apellidos", "DNI", "Pais", "Correo", "Tipo"));
 	    btn_insertar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_insertar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_insertar);
 	    
 	    JButton btn_actualizar = new JButton("Actualizar Pasajero");
 	    btn_actualizar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "pasajeros.actualizar", "Codigo a modificar", "Nombre", "Apellidos", "DNI", "Pais", "Correo", "Tipo"));
 	    btn_actualizar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_actualizar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_actualizar);
 	    
 	    JButton btn_borrar = new JButton("Borrar Pasajero");
 	    btn_borrar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "pasajeros.borrar", "Codigo"));
 	    btn_borrar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_borrar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_borrar);
 	    
 	    JButton btn_salir = new JButton("SALIR");

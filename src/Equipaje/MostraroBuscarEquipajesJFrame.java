@@ -68,7 +68,7 @@ public class MostraroBuscarEquipajesJFrame extends JFrame {
 	    OPCIONES.add(btn_mostrar);
 	    
 	    JButton btn_buscar = new JButton("Buscar Equipajes");
-	    btn_buscar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "equipajes.buscar", "Codigo"));
+	    btn_buscar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "equipajes.buscar", "Codigo de equipaje o reserva"));
 	    btn_buscar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_buscar);
 	    

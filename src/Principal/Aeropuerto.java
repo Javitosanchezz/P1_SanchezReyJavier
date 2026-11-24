@@ -27,6 +27,7 @@ import org.w3c.dom.NodeList;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import InicioSesion.Sesion;
 
 
 public class Aeropuerto {
@@ -38,6 +39,9 @@ public class Aeropuerto {
 		java.io.PrintStream salidaAnterior = System.out;
 		java.io.ByteArrayOutputStream buffer = new java.io.ByteArrayOutputStream();
 		try {
+			if (Sesion.getUsuario() != null && !Sesion.esAdmin() && esOperacionSoloAdmin(operacion)) {
+				return "No tienes permisos para realizar esta operación.";
+			}
 			StringBuilder texto = new StringBuilder();
 			for (String entrada : entradas) {
 				texto.append(entrada == null ? "" : entrada).append(System.lineSeparator());
@@ -86,6 +90,9 @@ public class Aeropuerto {
 			case "operativa.incidencia": impactoincidencia(); break;
 			case "cuadro.resumen": resumengeneral(); break;
 			case "cuadro.ocupacion": mostrarocupacion(); break;
+			case "cuadro.estados": mostrarvuelosporestado(); break;
+			case "cuadro.incidencias": mostrarincidenciasporprioridad(); break;
+			case "cuadro.alertas": mostraralertas(); break;
 			case "cuadro.exportar": exportarinformes(); break;
 			case "cuadro.diagnostico": diagnosticodatos(); break;
 			default: System.out.println("Operacion no disponible.");
@@ -112,6 +119,14 @@ public class Aeropuerto {
 			resultado = limpio.toString();
 		}
 		return resultado.length() == 0 ? "Operacion completada." : resultado;
+	}
+
+	private static boolean esOperacionSoloAdmin(String operacion) {
+		return operacion.endsWith(".insertar") || operacion.endsWith(".actualizar")
+				|| operacion.endsWith(".borrar") || operacion.endsWith(".crear")
+				|| operacion.endsWith(".modificar") || operacion.endsWith(".cancelar")
+				|| "cuadro.exportar".equals(operacion) || "cuadro.diagnostico".equals(operacion)
+				|| "configuracion.borrar".equals(operacion) || "configuracion.modificar".equals(operacion);
 	}
 
     public static void main(String[] args) {
@@ -1087,6 +1102,83 @@ public class Aeropuerto {
 		}
 	}
 
+	private static void mostrarvuelosporestado() {
+		java.util.Map<String, Integer> totales = new java.util.TreeMap<String, Integer>();
+		try {
+			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Path.of("datos/aeropuerto.xml").toFile());
+			NodeList vuelos = doc.getElementsByTagName("Vuelo");
+			for (int i = 0; i < vuelos.getLength(); i++) {
+				Element vuelo = (Element) vuelos.item(i);
+				String estado = vuelo.getAttribute("estado");
+				totales.put(estado, totales.getOrDefault(estado, 0) + 1);
+			}
+			for (java.util.Map.Entry<String, Integer> entrada : totales.entrySet()) {
+				System.out.println(entrada.getKey() + ": " + entrada.getValue());
+			}
+		} catch (Exception ex) {
+			System.out.println("No se pudieron agrupar los vuelos por estado.");
+		}
+	}
+
+	private static void mostrarincidenciasporprioridad() {
+		java.util.Map<String, Integer> totales = new java.util.TreeMap<String, Integer>();
+		try (BufferedReader lector = Files.newBufferedReader(Path.of("datos/incidencias.txt"))) {
+			String linea;
+			while ((linea = lector.readLine()) != null) {
+				String[] datos = linea.split("\\|", -1);
+				if (datos.length == 8 && "ABIERTA".equalsIgnoreCase(datos[7])) {
+					totales.put(datos[6], totales.getOrDefault(datos[6], 0) + 1);
+				}
+			}
+			for (java.util.Map.Entry<String, Integer> entrada : totales.entrySet()) {
+				System.out.println(entrada.getKey() + ": " + entrada.getValue());
+			}
+		} catch (Exception ex) {
+			System.out.println("No se pudieron agrupar las incidencias.");
+		}
+	}
+
+	private static void mostraralertas() {
+		int sobreventas = 0;
+		int equipajesPerdidos = 0;
+		int excesosPeso = 0;
+		int incidenciasAbiertas = 0;
+		try {
+			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Path.of("datos/aeropuerto.xml").toFile());
+			NodeList vuelos = doc.getElementsByTagName("Vuelo");
+			for (int i = 0; i < vuelos.getLength(); i++) {
+				Element vuelo = (Element) vuelos.item(i);
+				if (reservasconfirmadas(vuelo.getAttribute("codigo")) > capacidadavion(doc, vuelo.getAttribute("avion"))) sobreventas++;
+			}
+		} catch (Exception ex) {
+			System.out.println("No se pudo calcular la sobreventa.");
+		}
+		try (BufferedReader lector = Files.newBufferedReader(Path.of("datos/equipajes.csv"))) {
+			String linea;
+			while ((linea = lector.readLine()) != null) {
+				String[] datos = linea.split(",", -1);
+				if (datos.length == 6) {
+					if ("PERDIDO".equalsIgnoreCase(datos[4])) equipajesPerdidos++;
+					try { if (limiteequipaje(datos[3]) >= 0 && Double.parseDouble(datos[2]) > limiteequipaje(datos[3])) excesosPeso++; }
+					catch (Exception ex) { }
+				}
+			}
+		} catch (Exception ex) {
+			System.out.println("No se pudieron calcular las alertas de equipaje.");
+		}
+		try (BufferedReader lector = Files.newBufferedReader(Path.of("datos/incidencias.txt"))) {
+			String linea;
+			while ((linea = lector.readLine()) != null) {
+				String[] datos = linea.split("\\|", -1);
+				if (datos.length == 8 && "ABIERTA".equalsIgnoreCase(datos[7])) incidenciasAbiertas++;
+			}
+		} catch (Exception ex) { }
+		System.out.println("Vuelos con sobreventa: " + sobreventas);
+		System.out.println("Equipajes perdidos: " + equipajesPerdidos);
+		System.out.println("Equipajes con exceso de peso: " + excesosPeso);
+		System.out.println("Incidencias abiertas: " + incidenciasAbiertas);
+	}
+
 	private static int reservasconfirmadas(String vuelo) {
 		int total = 0;
 		try (BufferedReader lector = Files.newBufferedReader(Path.of("datos/reservas.csv"))) { String linea;
@@ -1307,7 +1399,7 @@ public class Aeropuerto {
             				            				
             				Node atributo = atributos.item(z);
             				
-            				if(atributo.getNodeName().equalsIgnoreCase("codigo") && atributo.getNodeValue().equalsIgnoreCase(respuesta)) {
+				if(vueloCoincide(vuelo, respuesta)) {
             					
             					System.out.print(atributos.item(0).getNodeName() + " " + atributos.item(0).getNodeValue() + " || ");
                 				System.out.print(atributos.item(1).getNodeName() + " " + atributos.item(1).getNodeValue() + " || ");
@@ -1646,7 +1738,7 @@ public class Aeropuerto {
 		String duracion = sc.nextLine();
 		String descripcion = sc.nextLine();
 		String prioridad = sc.nextLine();
-		String estado = sc.nextLine();
+		String estado = "ABIERTA";
 		try {
 			java.time.LocalDate fechaok;
 			try {
@@ -1747,7 +1839,7 @@ public class Aeropuerto {
 
 		                String[] datos = linea.split("\\|");
 		                
-		                System.out.println(datos[0] + " " +  datos[1] + " " + datos[2] + " " + datos[3] + " " + datos[4] + " " + datos[5] + " " + datos[6] + " " + datos[7]);
+		                System.out.println(String.join("|", datos));
 		                
 				}
 				
@@ -1795,10 +1887,11 @@ public class Aeropuerto {
 
 		                String[] datos = linea.split("\\|");
 		                
-		                if(respuesta.equals(datos[1])) {
+		                if(respuesta.equalsIgnoreCase(datos[1]) || respuesta.equalsIgnoreCase(datos[2])
+		                		|| respuesta.equalsIgnoreCase(datos[3])) {
 		                	
 		                	
-		                	 System.out.println(datos[0] + " " +  datos[1] + " " + datos[2] + " " + datos[3] + " " + datos[4] + " " + datos[5] + " " + datos[6] + " " + datos[7]);
+		                	 System.out.println(String.join("|", datos));
 				              
 		                	existe=true;
 		                	
@@ -2105,7 +2198,7 @@ public class Aeropuerto {
 					
 					String[] datos = linea.split(",", -1);
 					
-					if(respuesta.equalsIgnoreCase(datos[0])) {
+					if(respuesta.equalsIgnoreCase(datos[1]) || datos[2].startsWith(respuesta)) {
 						
 
 						System.out.println(datos[0] + " " + datos[1] + " " + datos[2] + " " + datos[3] + " " + datos[4] + " " + datos[5]);
@@ -2165,6 +2258,11 @@ public class Aeropuerto {
 			while ((linea = lector.readLine()) != null) {
 				String[] datos = linea.split(",", -1);
 				if (datos.length == 10 && reserva.equalsIgnoreCase(datos[0])) {
+					if (existe) {
+						lector.close();
+						System.out.println("El codigo de reserva aparece varias veces en reservas.csv.");
+						return;
+					}
 					existe = true;
 					vuelocodigo = datos[2];
 					estadreserva = datos[7];
@@ -2233,6 +2331,11 @@ public class Aeropuerto {
 			respuesta5=sc.nextLine();
 			System.out.println("Introduce las observaciones: ");
 			respuesta6=sc.nextLine();
+			String errorEmbarque = validarEmbarqueModificacion(respuesta, respuesta2, respuesta3, respuesta4, respuesta5, respuesta6);
+			if (errorEmbarque != null) {
+				System.out.println(errorEmbarque);
+				return;
+			}
 			
 			Path path = Path.of("datos", "embarques.csv");
 			
@@ -2463,7 +2566,7 @@ public class Aeropuerto {
 					
 					String[] datos = linea.split(",", -1);
 					
-					if(respuesta.equalsIgnoreCase(datos[0])) {
+					if(respuesta.equalsIgnoreCase(datos[0]) || respuesta.equalsIgnoreCase(datos[1])) {
 						
 
 						System.out.println(datos[0] + " " + datos[1] + " " + datos[2] + " " + datos[3] + " " + datos[4] + " " + datos[5]);
@@ -2574,6 +2677,11 @@ public class Aeropuerto {
 			respuesta5=sc.nextLine();
 			System.out.println("Introduce la prioridad del equipaje: ");
 			respuesta6=sc.nextLine();
+			String errorEquipaje = validarEquipajeModificacion(respuesta, respuesta2, respuesta3, respuesta4, respuesta5, respuesta6);
+			if (errorEquipaje != null) {
+				System.out.println(errorEquipaje);
+				return;
+			}
 			
 			Path path = Path.of("datos", "equipajes.csv");
 			
@@ -2805,7 +2913,8 @@ public class Aeropuerto {
 					
 					String[] datos = linea.split(",", -1);
 					
-					if(respuesta.equalsIgnoreCase(datos[0])) {
+					if(respuesta.equalsIgnoreCase(datos[0]) || respuesta.equalsIgnoreCase(datos[1])
+							|| respuesta.equalsIgnoreCase(datos[2])) {
 						
 
 						System.out.println(datos[0] + " " + datos[1] + " " + datos[2] + " " + datos[3] + " " + datos[4] + " " + datos[5] + " " + datos[6] + " " + datos[7] + " " + datos[8] + " " + datos[9]);
@@ -3073,6 +3182,12 @@ public class Aeropuerto {
 			respuesta9=sc.nextLine();
 			System.out.println("Introduce el canal de la reserva: ");
 			respuesta10=sc.nextLine();
+			String errorReserva = validarReservaModificacion(respuesta, respuesta2, respuesta3, respuesta4,
+					respuesta5, respuesta6, respuesta7, respuesta8, respuesta9, respuesta10);
+			if (errorReserva != null) {
+				System.out.println(errorReserva);
+				return;
+			}
 			
 			Path path = Path.of("datos", "reservas.csv");
 			
@@ -3296,7 +3411,8 @@ public class Aeropuerto {
 					
 					String[] datos = linea.split(",", -1);
 					
-					if(respuesta.equalsIgnoreCase(datos[0])) {
+					if(respuesta.equalsIgnoreCase(datos[0]) || datos[1].toLowerCase().contains(respuesta.toLowerCase())
+							|| datos[2].toLowerCase().contains(respuesta.toLowerCase())) {
 						
 
 						System.out.println(datos[0] + " " + datos[1] + " " + datos[2] + " " + datos[3] + " " + datos[4] + " " + datos[5] + " " + datos[6]);
@@ -3501,6 +3617,103 @@ public class Aeropuerto {
 		catch (Exception ex) {
 			System.out.println("No se pudo borrar el pasajero.");
 		}
+	}
+
+	private static String validarReservaModificacion(String codigo, String pasajero, String vuelo,
+			String asiento, String clase, String precio, String moneda, String estado, String fecha, String canal) {
+		if (codigo.isEmpty() || pasajero.isEmpty() || vuelo.isEmpty() || asiento.isEmpty() || clase.isEmpty()
+				|| precio.isEmpty() || moneda.isEmpty() || estado.isEmpty() || fecha.isEmpty() || canal.isEmpty()) {
+			return "Hay campos obligatorios vacios.";
+		}
+		if (codigo.contains(",") || pasajero.contains(",") || vuelo.contains(",") || asiento.contains(",")
+				|| clase.contains(",") || precio.contains(",") || moneda.contains(",") || estado.contains(",")
+				|| fecha.contains(",") || canal.contains(",")) {
+			return "Los campos no pueden contener comas.";
+		}
+		try {
+			double importe = Double.parseDouble(precio);
+			if (!Double.isFinite(importe) || importe < 0) return "Precio no valido.";
+			java.time.LocalDate.parse(fecha);
+		} catch (Exception ex) {
+			return "Precio o fecha no validos.";
+		}
+		if (!"CONFIRMADA".equals(estado) && !"CANCELADA".equals(estado)) return "Estado no permitido.";
+		if (!"WEB".equals(canal) && !"APP".equals(canal) && !"TAQUILLA".equals(canal) && !"AGENCIA".equals(canal)) return "Canal no permitido.";
+		if (!existecodigocsv("datos/pasajeros.csv", pasajero, 0, 7)) return "No existe el pasajero.";
+		if (!existeVueloDisponible(vuelo)) return "No existe el vuelo o esta cancelado.";
+		try (BufferedReader lector = Files.newBufferedReader(Path.of("datos/reservas.csv"))) {
+			String linea;
+			while ((linea = lector.readLine()) != null) {
+				String[] datos = linea.split(",", -1);
+				if (datos.length == 10 && vuelo.equalsIgnoreCase(datos[2]) && asiento.equalsIgnoreCase(datos[3])
+						&& !codigo.equalsIgnoreCase(datos[0])) return "El asiento ya esta asignado en ese vuelo.";
+			}
+		} catch (Exception ex) {
+			return "No se pudieron validar las reservas.";
+		}
+		return null;
+	}
+
+	private static String validarEquipajeModificacion(String codigo, String reserva, String peso, String tipo,
+			String estado, String prioridad) {
+		if (codigo.isEmpty() || reserva.isEmpty() || peso.isEmpty()) return "Hay campos obligatorios vacios.";
+		try {
+			double valor = Double.parseDouble(peso);
+			if (!Double.isFinite(valor) || valor < 0) return "Peso no valido.";
+		} catch (Exception ex) {
+			return "Peso no valido.";
+		}
+		if (!"FACTURADO".equals(tipo) && !"MANO".equals(tipo) && !"ESPECIAL".equals(tipo)) return "Tipo de equipaje no permitido.";
+		if (!"REGISTRADO".equals(estado) && !"CARGADO".equals(estado) && !"EN_TRANSITO".equals(estado)
+				&& !"ENTREGADO".equals(estado) && !"PERDIDO".equals(estado)) return "Estado de equipaje no permitido.";
+		if (!"NORMAL".equals(prioridad) && !"FRAGIL".equals(prioridad) && !"PRIORITARIO".equals(prioridad)) return "Prioridad no permitida.";
+		if (!existecodigocsv("datos/reservas.csv", reserva, 0, 10)) return "No existe la reserva.";
+		return null;
+	}
+
+	private static String validarEmbarqueModificacion(String codigo, String reserva, String fechaHora,
+			String puerta, String estado, String observaciones) {
+		if (codigo.isEmpty() || reserva.isEmpty() || fechaHora.isEmpty() || puerta.isEmpty()) return "Hay campos obligatorios vacios.";
+		try {
+			java.time.LocalDateTime.parse(fechaHora);
+		} catch (Exception ex) {
+			return "Fecha y hora no validas. Usa AAAA-MM-DDThh:mm.";
+		}
+		if (!"EMBARCADO".equals(estado) && !"EMBARCANDO".equals(estado) && !"NO_EMBARCADO".equals(estado)) return "Estado no permitido.";
+		if (!existecodigocsv("datos/reservas.csv", reserva, 0, 10)) return "No existe la reserva.";
+		try (BufferedReader lector = Files.newBufferedReader(Path.of("datos/embarques.csv"))) {
+			String linea;
+			while ((linea = lector.readLine()) != null) {
+				String[] datos = linea.split(",", -1);
+				if (datos.length == 6 && reserva.equalsIgnoreCase(datos[1]) && !codigo.equalsIgnoreCase(datos[0])) return "La reserva ya tiene otro embarque.";
+			}
+		} catch (Exception ex) {
+			return "No se pudieron validar los embarques.";
+		}
+		return null;
+	}
+
+	private static boolean existeVueloDisponible(String codigo) {
+		try {
+			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Path.of("datos/aeropuerto.xml").toFile());
+			NodeList vuelos = doc.getElementsByTagName("Vuelo");
+			for (int i = 0; i < vuelos.getLength(); i++) {
+				Element vuelo = (Element) vuelos.item(i);
+				if (codigo.equalsIgnoreCase(vuelo.getAttribute("codigo"))) return !"CANCELADO".equalsIgnoreCase(vuelo.getAttribute("estado"));
+			}
+		} catch (Exception ex) {
+			return false;
+		}
+		return false;
+	}
+
+	private static boolean vueloCoincide(Element vuelo, String texto) {
+		String buscado = texto.toLowerCase();
+		NamedNodeMap atributos = vuelo.getAttributes();
+		for (int i = 0; i < atributos.getLength(); i++) {
+			if (atributos.item(i).getNodeValue().toLowerCase().contains(buscado)) return true;
+		}
+		return vuelo.getTextContent().toLowerCase().contains(buscado);
 	}
 	
 }

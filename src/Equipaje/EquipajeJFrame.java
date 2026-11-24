@@ -73,16 +73,19 @@ public class EquipajeJFrame extends JFrame {
 	    JButton btn_insertar = new JButton("Insertar Equipaje");
 	    btn_insertar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "equipajes.insertar", "Codigo", "Codigo reserva", "Peso", "Tipo", "Estado", "Prioridad"));
 	    btn_insertar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_insertar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_insertar);
 	    
 	    JButton btn_actualizar = new JButton("Actualizar Equipaje");
 	    btn_actualizar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "equipajes.actualizar", "Codigo", "Codigo reserva", "Peso", "Tipo", "Estado", "Prioridad"));
 	    btn_actualizar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_actualizar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_actualizar);
 	    
 	    JButton btn_borrar = new JButton("Borrar Equipaje");
 	    btn_borrar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "equipajes.borrar", "Codigo"));
 	    btn_borrar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_borrar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_borrar);
 	    
 	    JButton btn_salir = new JButton("SALIR");

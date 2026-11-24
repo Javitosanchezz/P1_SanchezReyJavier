@@ -68,7 +68,7 @@ public class MostraroBuscarIncidenciasJFrame extends JFrame {
 	    OPCIONES.add(btn_mostrar);
 	    
 	    JButton btn_buscar = new JButton("Buscar Incidencias");
-	    btn_buscar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "incidencias.buscar", "Codigo"));
+	    btn_buscar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "incidencias.buscar", "Codigo, vuelo o tipo"));
 	    btn_buscar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_buscar);
 	    

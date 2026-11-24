@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Principal.AeropuertoJFrame;
+import Principal.EstiloUI;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -42,6 +43,7 @@ public class InicioSesionJFrame extends JFrame {
 	}
 
 	public InicioSesionJFrame() {
+		EstiloUI.aplicar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 783, 575);
 		contentPane = new JPanel();
@@ -130,7 +132,9 @@ public class InicioSesionJFrame extends JFrame {
 					String[] datos = linea.split(",", -1);
 					if (usuario.equalsIgnoreCase(datos[0]) && contraseña.equals(datos[1])) {
 						
-						AeropuertoJFrame aeropuerto = new AeropuertoJFrame();
+						String rol = datos.length >= 5 && datos[4].trim().length() > 0 ? datos[4].trim() : "USER";
+						Sesion.iniciar(usuario, rol);
+						AeropuertoJFrame aeropuerto = new AeropuertoJFrame(rol);
 						dispose();
 						aeropuerto.setVisible(true);
 						encontrado = true;

@@ -25,11 +25,13 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import InicioSesion.Sesion;
 
 public class AeropuertoJFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private final String rol;
 
 	/**
 	 * Launch the application.
@@ -48,6 +50,12 @@ public class AeropuertoJFrame extends JFrame {
 	}
 	
 	public AeropuertoJFrame() {
+		this(Sesion.getRol());
+	}
+
+	public AeropuertoJFrame(String rol) {
+		EstiloUI.aplicar();
+		this.rol = "ADMIN".equalsIgnoreCase(rol) ? "ADMIN" : "USER";
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 976, 583);
 	    contentPane = new JPanel();
@@ -58,6 +66,7 @@ public class AeropuertoJFrame extends JFrame {
 
 	    JLabel lblNewLabel = new JLabel("GESTIÓN DEL AEROPUERTO\r\n\r\n\r\n\r\n");
 	    lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	    lblNewLabel.setText(lblNewLabel.getText() + " - ROL: " + this.rol);
 	    lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 21));
 	    contentPane.add(lblNewLabel, BorderLayout.NORTH);  
 
@@ -114,6 +123,7 @@ public class AeropuertoJFrame extends JFrame {
 	    	}
 	    });
 	    btn_configuracion.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_configuracion.setVisible(Sesion.esAdmin());
 	    OPCIONES.add(btn_configuracion);
 	    
 	    JButton btn_reservas = new JButton("Gestion De Reservas");
@@ -181,8 +191,10 @@ public class AeropuertoJFrame extends JFrame {
 	    btn_salir.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    btn_salir.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		
-	    		System.exit(0);
+	    		Sesion.cerrar();
+	    		dispose();
+	    		InicioSesion.InicioSesionJFrame login = new InicioSesion.InicioSesionJFrame();
+	    		login.setVisible(true);
 	    	}
 	    });
 	    OPCIONES.add(btn_salir);

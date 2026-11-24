@@ -1,4 +1,5 @@
 package InicioSesion;
+import Principal.EstiloUI;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -7,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
@@ -26,6 +28,7 @@ public class RegistroJFrame extends JFrame {
 	private JTextField nuevo_usuario;
 	private JTextField txt_nombre;
 	private JTextField txt_apellido;
+	private JComboBox<String> comboRol;
 	private JLabel lblerror = new JLabel("");
 
 	public static void main(String[] args) {
@@ -42,6 +45,7 @@ public class RegistroJFrame extends JFrame {
 	}
 
 	public RegistroJFrame() {
+		EstiloUI.aplicar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 783, 575);
 		contentPane = new JPanel();
@@ -108,9 +112,19 @@ public class RegistroJFrame extends JFrame {
 		txt_apellido.setColumns(10);
 		txt_apellido.setBounds(295, 306, 200, 18);
 		contentPane.add(txt_apellido);
+
+		JLabel lblRol = new JLabel("ROL");
+		lblRol.setForeground(new Color(0, 64, 128));
+		lblRol.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblRol.setBounds(295, 334, 90, 12);
+		contentPane.add(lblRol);
+
+		comboRol = new JComboBox<String>(new String[] { "USER", "ADMIN" });
+		comboRol.setBounds(295, 350, 200, 22);
+		contentPane.add(comboRol);
 		
 		lblerror = new JLabel("");
-		lblerror.setBounds(295, 346, 200, 30);
+		lblerror.setBounds(295, 376, 300, 20);
 		contentPane.add(lblerror);
 		
 		JButton btnNewButton = new JButton("");
@@ -118,6 +132,7 @@ public class RegistroJFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				InicioSesionJFrame inicio = new InicioSesionJFrame();
+				Sesion.cerrar();
 				dispose();
 				inicio.setVisible(true);
 				
@@ -180,6 +195,7 @@ public class RegistroJFrame extends JFrame {
 				
 				linea = nuevousuario + "," + contraseña + "," + nombre + "," + apellido + ",";
 				
+				linea = linea + comboRol.getSelectedItem();
 				bufferedwriter.write(linea);
 				
 				bufferedwriter.newLine();

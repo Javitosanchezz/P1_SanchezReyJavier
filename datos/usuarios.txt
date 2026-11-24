@@ -1,3 +1,4 @@
 Javier,1234,Javier,Sanchez,
 Mbappe,balon,Mbappe,Lottin,
 Cristiano,Suuu,Cristiano,Ronaldo,
+admin,1234,admin,admin,ADMIN

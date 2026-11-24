@@ -73,16 +73,19 @@ public class VuelosJFrame extends JFrame {
 	    JButton btn_insertar = new JButton("Insertar Vuelos");
 	    btn_insertar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "vuelos.crear", "Codigo", "Aerolinea", "Avion", "Estado"));
 	    btn_insertar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_insertar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_insertar);
 	    
 	    JButton btn_actualizar = new JButton("Actualizar Vuelos");
 	    btn_actualizar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "vuelos.modificar", "Codigo", "Aerolinea", "Avion", "Estado"));
 	    btn_actualizar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_actualizar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_actualizar);
 	    
 	    JButton btn_borrar = new JButton("Borrar Vuelo");
 	    btn_borrar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "vuelos.borrar", "Codigo"));
 	    btn_borrar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_borrar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_borrar);
 	    
 	    JButton btn_salir = new JButton("SALIR");

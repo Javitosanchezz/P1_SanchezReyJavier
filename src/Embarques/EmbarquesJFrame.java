@@ -75,16 +75,19 @@ public class EmbarquesJFrame extends JFrame {
 	    JButton btn_insertar = new JButton("Insertar Embarques");
 	    btn_insertar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "embarques.insertar", "Codigo", "Codigo reserva", "Fecha y hora", "Puerta", "Estado", "Observaciones"));
 	    btn_insertar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_insertar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_insertar);
 	    
 	    JButton btn_actualizar = new JButton("Actualizar Embarques");
 	    btn_actualizar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "embarques.actualizar", "Codigo", "Codigo reserva", "Fecha y hora", "Puerta", "Estado", "Observaciones"));
 	    btn_actualizar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_actualizar.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_actualizar);
 	    
 	    JButton btn_actualizar_1 = new JButton("Borrar Embarques");
 	    btn_actualizar_1.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "embarques.borrar", "Codigo"));
 	    btn_actualizar_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btn_actualizar_1.setVisible(InicioSesion.Sesion.esAdmin());
 	    OPCIONES.add(btn_actualizar_1);
 	    
 	    JButton btn_salir = new JButton("SALIR");
