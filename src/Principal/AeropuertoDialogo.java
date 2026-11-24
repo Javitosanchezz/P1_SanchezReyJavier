@@ -9,6 +9,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
 
@@ -46,6 +47,18 @@ public final class AeropuertoDialogo {
                 JOptionPane.showMessageDialog(padre, ultimoMensaje(configuracion, operacion), "Resultado",
                         JOptionPane.INFORMATION_MESSAGE);
             }
+            return;
+        }
+
+        if (operacion.equals("reservas.buscar") && mostrarFichaReserva(padre, valores.get(0))) {
+            return;
+        }
+
+        if (operacion.equals("incidencias.buscar") && mostrarFichaIncidencia(padre, valores.get(0))) {
+            return;
+        }
+
+        if (operacion.equals("equipajes.buscar") && mostrarFichaEquipaje(padre, valores.get(0))) {
             return;
         }
 
@@ -202,6 +215,168 @@ public final class AeropuertoDialogo {
         JDialog dialogo = new JDialog(padre, "Resultado", JDialog.ModalityType.APPLICATION_MODAL);
         dialogo.add(new JScrollPane(tabla), BorderLayout.CENTER);
         dialogo.setSize(700, 320);
+        dialogo.setLocationRelativeTo(padre);
+        dialogo.setVisible(true);
+        return true;
+    }
+
+    private static boolean mostrarFichaReserva(Window padre, String consulta) {
+        java.util.ArrayList<String[]> reservas = leerCsv("datos/reservas.csv", 10);
+        StringBuilder ficha = new StringBuilder();
+        boolean encontrada = false;
+        for (String[] reserva : reservas) {
+            if (!consulta.equalsIgnoreCase(reserva[0]) && !consulta.equalsIgnoreCase(reserva[1])
+                    && !consulta.equalsIgnoreCase(reserva[2])) continue;
+            encontrada = true;
+            ficha.append("RESERVA\n");
+            ficha.append("Código: ").append(reserva[0]).append("\nPasajero: ").append(reserva[1])
+                    .append("\nVuelo: ").append(reserva[2]).append("\nAsiento: ").append(reserva[3])
+                    .append("\nClase: ").append(reserva[4]).append("\nPrecio: ").append(reserva[5]).append(" ").append(reserva[6])
+                    .append("\nEstado: ").append(reserva[7]).append("\nFecha: ").append(reserva[8])
+                    .append("\nCanal: ").append(reserva[9]).append("\n\n");
+            ficha.append("PASAJERO\n");
+            for (String[] pasajero : leerCsv("datos/pasajeros.csv", 7)) {
+                if (reserva[1].equalsIgnoreCase(pasajero[0])) {
+                    ficha.append(String.join(" | ", pasajero)).append("\n");
+                }
+            }
+            ficha.append("\nEQUIPAJES\n");
+            boolean hayEquipaje = false;
+            for (String[] equipaje : leerCsv("datos/equipajes.csv", 6)) {
+                if (reserva[0].equalsIgnoreCase(equipaje[1])) {
+                    ficha.append(String.join(" | ", equipaje)).append("\n");
+                    hayEquipaje = true;
+                }
+            }
+            if (!hayEquipaje) ficha.append("Sin equipajes asociados.\n");
+            ficha.append("\nEMBARQUE\n");
+            boolean hayEmbarque = false;
+            for (String[] embarque : leerCsv("datos/embarques.csv", 6)) {
+                if (reserva[0].equalsIgnoreCase(embarque[1])) {
+                    ficha.append(String.join(" | ", embarque)).append("\n");
+                    hayEmbarque = true;
+                }
+            }
+            if (!hayEmbarque) ficha.append("Sin embarque asociado.\n");
+            ficha.append("\n------------------------------\n\n");
+        }
+        if (!encontrada) return false;
+
+        JTextArea area = new JTextArea(ficha.toString());
+        area.setEditable(false);
+        area.setLineWrap(true);
+        area.setWrapStyleWord(true);
+        area.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 13));
+        JDialog dialogo = new JDialog(padre, "Ficha de reserva", JDialog.ModalityType.APPLICATION_MODAL);
+        dialogo.add(new JScrollPane(area), BorderLayout.CENTER);
+        dialogo.setSize(760, 560);
+        dialogo.setLocationRelativeTo(padre);
+        dialogo.setVisible(true);
+        return true;
+    }
+
+    private static java.util.ArrayList<String[]> leerCsv(String archivo, int campos) {
+        java.util.ArrayList<String[]> filas = new java.util.ArrayList<String[]>();
+        try (java.io.BufferedReader lector = java.nio.file.Files.newBufferedReader(java.nio.file.Path.of(archivo))) {
+            String linea;
+            while ((linea = lector.readLine()) != null) {
+                String[] datos = linea.split(",", -1);
+                if (datos.length == campos) filas.add(datos);
+            }
+        } catch (Exception ex) {
+            // La ficha conserva las secciones disponibles si falta algún fichero.
+        }
+        return filas;
+    }
+
+    private static boolean mostrarFichaIncidencia(Window padre, String consulta) {
+        String incidencia = null;
+        String vuelo = null;
+        try (java.io.BufferedReader lector = java.nio.file.Files.newBufferedReader(java.nio.file.Path.of("datos/incidencias.txt"))) {
+            String linea;
+            while ((linea = lector.readLine()) != null) {
+                String[] datos = linea.split("\\|", -1);
+                if (datos.length == 8 && (consulta.equalsIgnoreCase(datos[1]) || consulta.equalsIgnoreCase(datos[2])
+                        || consulta.equalsIgnoreCase(datos[3]))) {
+                    incidencia = linea;
+                    vuelo = datos[2];
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            return false;
+        }
+        if (incidencia == null) return false;
+
+        StringBuilder ficha = new StringBuilder("INCIDENCIA\n");
+        ficha.append(incidencia.replace('|', ' ')).append("\n\nRESERVAS DEL VUELO\n");
+        boolean encontrada = false;
+        for (String[] reserva : leerCsv("datos/reservas.csv", 10)) {
+            if (vuelo.equalsIgnoreCase(reserva[2])) {
+                ficha.append(String.join(" | ", reserva)).append("\n");
+                encontrada = true;
+            }
+        }
+        if (!encontrada) ficha.append("Sin reservas asociadas.\n");
+
+        JTextArea area = new JTextArea(ficha.toString());
+        area.setEditable(false);
+        area.setLineWrap(true);
+        area.setWrapStyleWord(true);
+        area.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 13));
+        JDialog dialogo = new JDialog(padre, "Ficha de incidencia", JDialog.ModalityType.APPLICATION_MODAL);
+        dialogo.add(new JScrollPane(area), BorderLayout.CENTER);
+        dialogo.setSize(900, 520);
+        dialogo.setLocationRelativeTo(padre);
+        dialogo.setVisible(true);
+        return true;
+    }
+
+    private static boolean mostrarFichaEquipaje(Window padre, String consulta) {
+        String[] equipajeEncontrado = null;
+        for (String[] equipaje : leerCsv("datos/equipajes.csv", 6)) {
+            if (consulta.equalsIgnoreCase(equipaje[0]) || consulta.equalsIgnoreCase(equipaje[1])) {
+                equipajeEncontrado = equipaje;
+                break;
+            }
+        }
+        if (equipajeEncontrado == null) return false;
+
+        String reservaCodigo = equipajeEncontrado[1];
+        String[] reservaEncontrada = null;
+        for (String[] reserva : leerCsv("datos/reservas.csv", 10)) {
+            if (reservaCodigo.equalsIgnoreCase(reserva[0])) {
+                reservaEncontrada = reserva;
+                break;
+            }
+        }
+
+        StringBuilder ficha = new StringBuilder("EQUIPAJE\n");
+        ficha.append(String.join(" | ", equipajeEncontrado)).append("\n\nRESERVA\n");
+        if (reservaEncontrada == null) {
+            ficha.append("No existe la reserva asociada.\n");
+        } else {
+            ficha.append(String.join(" | ", reservaEncontrada)).append("\n\nPASAJERO\n");
+            boolean pasajeroEncontrado = false;
+            for (String[] pasajero : leerCsv("datos/pasajeros.csv", 7)) {
+                if (reservaEncontrada[1].equalsIgnoreCase(pasajero[0])) {
+                    ficha.append(String.join(" | ", pasajero)).append("\n");
+                    pasajeroEncontrado = true;
+                    break;
+                }
+            }
+            if (!pasajeroEncontrado) ficha.append("No existe el pasajero asociado.\n");
+            ficha.append("\nVUELO\nCódigo: ").append(reservaEncontrada[2]).append("\n");
+        }
+
+        JTextArea area = new JTextArea(ficha.toString());
+        area.setEditable(false);
+        area.setLineWrap(true);
+        area.setWrapStyleWord(true);
+        area.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 13));
+        JDialog dialogo = new JDialog(padre, "Ficha de equipaje", JDialog.ModalityType.APPLICATION_MODAL);
+        dialogo.add(new JScrollPane(area), BorderLayout.CENTER);
+        dialogo.setSize(900, 520);
         dialogo.setLocationRelativeTo(padre);
         dialogo.setVisible(true);
         return true;

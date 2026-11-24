@@ -2240,14 +2240,18 @@ public class Aeropuerto {
 				System.out.println("Estado no permitido.");
 				return;
 			}
+			boolean actualizarEmbarque = false;
 			BufferedReader lector = Files.newBufferedReader(Path.of("datos/embarques.csv"));
 			String linea;
 			while ((linea = lector.readLine()) != null) {
 				String[] datos = linea.split(",", -1);
-				if (datos.length == 6 && (codigo.equalsIgnoreCase(datos[0]) || reserva.equalsIgnoreCase(datos[1]))) {
+				if (datos.length == 6 && codigo.equalsIgnoreCase(datos[0])) {
 					lector.close();
-					System.out.println("Ya existe un embarque para ese registro o reserva.");
+					System.out.println("Ya existe un embarque con ese codigo de registro.");
 					return;
+				}
+				if (datos.length == 6 && reserva.equalsIgnoreCase(datos[1])) {
+					actualizarEmbarque = true;
 				}
 			}
 			lector.close();
@@ -2300,6 +2304,24 @@ public class Aeropuerto {
 			}
 			if (origen == null || puerta.equalsIgnoreCase(origen.getAttribute("puerta")) == false && puerta.equalsIgnoreCase(puertaxml) == false) {
 				System.out.println("La puerta no coincide con el vuelo.");
+				return;
+			}
+			if (actualizarEmbarque) {
+				Path original = Path.of("datos/embarques.csv");
+				Path temporal = Path.of("datos/temporalembarques.csv");
+				try (BufferedReader lectorActual = Files.newBufferedReader(original);
+						BufferedWriter escritorActual = Files.newBufferedWriter(temporal)) {
+					while ((linea = lectorActual.readLine()) != null) {
+						String[] datos = linea.split(",", -1);
+						if (datos.length == 6 && reserva.equalsIgnoreCase(datos[1])) {
+							linea = datos[0] + "," + reserva + "," + fechahora + "," + puerta + "," + estado + "," + observaciones;
+						}
+						escritorActual.write(linea);
+						escritorActual.newLine();
+					}
+				}
+				Files.move(temporal, original, StandardCopyOption.REPLACE_EXISTING);
+				System.out.println("Embarque actualizado: la reserva ya tenia un embarque.");
 				return;
 			}
 			BufferedWriter escritor = Files.newBufferedWriter(Path.of("datos/embarques.csv"), java.nio.file.StandardOpenOption.APPEND);
