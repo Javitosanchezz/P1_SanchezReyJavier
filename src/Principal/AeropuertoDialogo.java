@@ -35,6 +35,13 @@ public final class AeropuertoDialogo {
 
         String resultado = Aeropuerto.ejecutarInterfaz(operacion,
                 valores.toArray(new String[valores.size()]));
+
+        if (esOperacionDeEscritura(operacion)) {
+            JOptionPane.showMessageDialog(padre, ultimoMensaje(resultado, operacion), "Resultado",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
         String[] lineas = resultado.split("\\R", -1);
         if (operacion.endsWith(".buscar")) {
             java.util.ArrayList<String> filtradas = new java.util.ArrayList<String>();
@@ -69,5 +76,35 @@ public final class AeropuertoDialogo {
         dialogo.pack();
         dialogo.setLocationRelativeTo(padre);
         dialogo.setVisible(true);
+    }
+
+    private static boolean esOperacionDeEscritura(String operacion) {
+        return operacion.endsWith(".insertar")
+                || operacion.endsWith(".actualizar")
+                || operacion.endsWith(".borrar")
+                || operacion.endsWith(".crear")
+                || operacion.endsWith(".modificar")
+                || operacion.endsWith(".cancelar");
+    }
+
+    private static String ultimoMensaje(String resultado, String operacion) {
+        String[] lineas = resultado.split("\\R");
+        for (int i = lineas.length - 1; i >= 0; i--) {
+            if (!lineas[i].trim().isEmpty()) {
+                String mensaje = lineas[i].trim();
+                String minusculas = mensaje.toLowerCase(java.util.Locale.ROOT);
+                if (minusculas.startsWith("introduce el tipo del pasajero")) {
+                    return operacion.endsWith(".insertar")
+                            ? "Pasajero insertado correctamente."
+                            : "Pasajero actualizado correctamente.";
+                }
+                if (minusculas.startsWith("introduce ")
+                        || minusculas.startsWith("que ")) {
+                    return "Operación realizada correctamente.";
+                }
+                return mensaje;
+            }
+        }
+        return "Operación completada.";
     }
 }
