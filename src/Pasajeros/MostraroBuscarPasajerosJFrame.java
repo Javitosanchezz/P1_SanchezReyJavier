@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Vuelos.VuelosJFrame;
+import Principal.AeropuertoDialogo;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -23,9 +24,6 @@ public class MostraroBuscarPasajerosJFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -39,9 +37,6 @@ public class MostraroBuscarPasajerosJFrame extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public MostraroBuscarPasajerosJFrame() {
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 976, 583);
@@ -66,12 +61,14 @@ public class MostraroBuscarPasajerosJFrame extends JFrame {
 	    JButton btn_mostrar = new JButton("Mostrar Pasajeros");
 	    btn_mostrar.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
+	    		AeropuertoDialogo.ejecutar(MostraroBuscarPasajerosJFrame.this, "pasajeros.mostrar");
 	    	}
 	    });
 	    btn_mostrar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_mostrar);
 	    
 	    JButton btn_buscar = new JButton("Buscar Pasajero");
+	    btn_buscar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "pasajeros.buscar", "Codigo"));
 	    btn_buscar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_buscar);
 	    

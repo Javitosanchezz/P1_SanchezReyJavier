@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Principal.AeropuertoJFrame;
+import Principal.AeropuertoDialogo;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -72,14 +73,17 @@ public class EmbarquesJFrame extends JFrame {
 	    OPCIONES.add(btn_mostrar);
 	    
 	    JButton btn_insertar = new JButton("Insertar Embarques");
+	    btn_insertar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "embarques.insertar", "Codigo", "Codigo reserva", "Fecha y hora", "Puerta", "Estado", "Observaciones"));
 	    btn_insertar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_insertar);
 	    
 	    JButton btn_actualizar = new JButton("Actualizar Embarques");
+	    btn_actualizar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "embarques.actualizar", "Codigo", "Codigo reserva", "Fecha y hora", "Puerta", "Estado", "Observaciones"));
 	    btn_actualizar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_actualizar);
 	    
 	    JButton btn_actualizar_1 = new JButton("Borrar Embarques");
+	    btn_actualizar_1.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "embarques.borrar", "Codigo"));
 	    btn_actualizar_1.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_actualizar_1);
 	    

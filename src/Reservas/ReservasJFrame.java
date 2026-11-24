@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Principal.AeropuertoJFrame;
+import Principal.AeropuertoDialogo;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -23,9 +24,6 @@ public class ReservasJFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -39,9 +37,6 @@ public class ReservasJFrame extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public ReservasJFrame() {
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 976, 583);
@@ -76,18 +71,22 @@ public class ReservasJFrame extends JFrame {
 	    OPCIONES.add(btn_mostrar);
 	    
 	    JButton btn_insertar = new JButton("Insertar Reservas");
+	    btn_insertar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "reservas.insertar", "Codigo", "Codigo pasajero", "Codigo vuelo", "Asiento", "Clase", "Precio", "Moneda", "Estado", "Fecha", "Canal"));
 	    btn_insertar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_insertar);
 	    
 	    JButton btn_actualizar = new JButton("Actualizar Reservas");
+	    btn_actualizar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "reservas.actualizar", "Codigo", "Codigo pasajero", "Codigo vuelo", "Asiento", "Clase", "Precio", "Moneda", "Estado", "Fecha", "Canal"));
 	    btn_actualizar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_actualizar);
 	    
 	    JButton btn_actualizar_1 = new JButton("Borrar Reservas");
+	    btn_actualizar_1.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "reservas.borrar", "Codigo"));
 	    btn_actualizar_1.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_actualizar_1);
 	    
 	    JButton btn_borrar = new JButton("Cancelar Reservas");
+	    btn_borrar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "reservas.cancelar", "Codigo"));
 	    btn_borrar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_borrar);
 	    

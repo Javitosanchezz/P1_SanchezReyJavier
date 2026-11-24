@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Principal.AeropuertoJFrame;
+import Principal.AeropuertoDialogo;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -63,7 +64,7 @@ public class ConfiguracionJFrame extends JFrame {
 	    JButton btn_mostrar = new JButton("Mostrar Configuracion");
 	    btn_mostrar.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		
+	    		AeropuertoDialogo.ejecutar(ConfiguracionJFrame.this, "configuracion.mostrar");
 	    		
 	    	}
 	    });
@@ -71,14 +72,17 @@ public class ConfiguracionJFrame extends JFrame {
 	    OPCIONES.add(btn_mostrar);
 	    
 	    JButton btn_insertar = new JButton("Consultar una ruta JSON Pointer");
+	    btn_insertar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "configuracion.consultar", "Ruta JSON Pointer"));
 	    btn_insertar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_insertar);
 	    
 	    JButton btn_actualizar = new JButton("Modificar un parametro escalar");
+	    btn_actualizar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "configuracion.modificar", "Ruta JSON Pointer", "Nuevo valor"));
 	    btn_actualizar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_actualizar);
 	    
 	    JButton btn_actualizar_1 = new JButton("Borrar un parametro opcional");
+	    btn_actualizar_1.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "configuracion.borrar", "Ruta JSON Pointer"));
 	    btn_actualizar_1.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_actualizar_1);
 	    

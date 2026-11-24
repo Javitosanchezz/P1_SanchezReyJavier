@@ -28,9 +28,6 @@ public class InicioSesionJFrame extends JFrame {
 	private JTextField txt_usuario;
 	private JLabel lblerror2 = new JLabel("");
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -44,9 +41,6 @@ public class InicioSesionJFrame extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public InicioSesionJFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 783, 575);

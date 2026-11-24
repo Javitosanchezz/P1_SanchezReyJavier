@@ -33,6 +33,87 @@ public class Aeropuerto {
 
     static Scanner sc = new Scanner(System.in);
 
+	public static String ejecutarInterfaz(String operacion, String... entradas) {
+		Scanner scannerAnterior = sc;
+		java.io.PrintStream salidaAnterior = System.out;
+		java.io.ByteArrayOutputStream buffer = new java.io.ByteArrayOutputStream();
+		try {
+			StringBuilder texto = new StringBuilder();
+			for (String entrada : entradas) {
+				texto.append(entrada == null ? "" : entrada).append(System.lineSeparator());
+			}
+			sc = new Scanner(new java.io.StringReader(texto.toString()));
+			System.setOut(new java.io.PrintStream(buffer));
+			switch (operacion) {
+			case "pasajeros.mostrar": mostrarpasajeros(); break;
+			case "pasajeros.buscar": buscarpasajeros(); break;
+			case "pasajeros.insertar": insertarpasajeros(); break;
+			case "pasajeros.actualizar": actualizarpasajeros(); break;
+			case "pasajeros.borrar": borrarpasajeros(); break;
+			case "vuelos.mostrar": mostrarvuelos(); break;
+			case "vuelos.buscar": buscarvuelos(); break;
+			case "vuelos.crear": crearvuelos(); break;
+			case "vuelos.modificar": modificarvuelos(); break;
+			case "vuelos.borrar": borrarvuelos(); break;
+			case "incidencias.mostrar": mostrartodasincidencias(); break;
+			case "incidencias.buscar": buscarcodigoincidencias(); break;
+			case "incidencias.crear": crearincidencia(); break;
+			case "incidencias.modificar": modificarincidencia(); break;
+			case "incidencias.borrar": eliminarincidencia(); break;
+			case "embarques.mostrar": mostrarembarques(); break;
+			case "embarques.buscar": buscarembarques(); break;
+			case "embarques.insertar": insertarembarques(); break;
+			case "embarques.actualizar": actualizarembarques(); break;
+			case "embarques.borrar": borrarembarques(); break;
+			case "equipajes.mostrar": mostrarequipajes(); break;
+			case "equipajes.buscar": buscarequipajes(); break;
+			case "equipajes.insertar": insertarequipajes(); break;
+			case "equipajes.actualizar": actualizarequipajes(); break;
+			case "equipajes.borrar": borrarequipajes(); break;
+			case "reservas.mostrar": mostrarreserva(); break;
+			case "reservas.buscar": buscarreserva(); break;
+			case "reservas.insertar": insertarreserva(); break;
+			case "reservas.actualizar": actualizarreserva(); break;
+			case "reservas.borrar": borrarreserva(); break;
+			case "reservas.cancelar": cancelarreservaseguro(); break;
+			case "configuracion.mostrar": gestionconfiguracion(); break;
+			case "configuracion.consultar": gestionconfiguracion(); break;
+			case "configuracion.modificar": gestionconfiguracion(); break;
+			case "configuracion.borrar": gestionconfiguracion(); break;
+			case "operativa.checkin": comprobarcheckin(); break;
+			case "operativa.pendientes": consultarpendientes(); break;
+			case "operativa.equipajes": resumenequipajesvuelo(); break;
+			case "operativa.incidencia": impactoincidencia(); break;
+			case "cuadro.resumen": resumengeneral(); break;
+			case "cuadro.ocupacion": mostrarocupacion(); break;
+			case "cuadro.exportar": exportarinformes(); break;
+			case "cuadro.diagnostico": diagnosticodatos(); break;
+			default: System.out.println("Operacion no disponible.");
+			}
+		} catch (Exception ex) {
+			System.out.println("No se pudo completar la operacion: " + ex.getMessage());
+		} finally {
+			System.setOut(salidaAnterior);
+			sc.close();
+			sc = scannerAnterior;
+		}
+		String resultado = buffer.toString();
+		if (operacion.endsWith(".buscar")) {
+			StringBuilder limpio = new StringBuilder();
+			for (String linea : resultado.split("\\R")) {
+				String texto = linea.trim().toLowerCase(java.util.Locale.ROOT);
+				if (texto.startsWith("introduce el codigo") || texto.startsWith("introduce el c")) continue;
+				if (texto.startsWith("introduce el codigo") == false
+						&& texto.startsWith("introduce el código") == false) {
+					if (limpio.length() > 0) limpio.append(System.lineSeparator());
+					limpio.append(linea);
+				}
+			}
+			resultado = limpio.toString();
+		}
+		return resultado.length() == 0 ? "Operacion completada." : resultado;
+	}
+
     public static void main(String[] args) {
 
         int opcion;

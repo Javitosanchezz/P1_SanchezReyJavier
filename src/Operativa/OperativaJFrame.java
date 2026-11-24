@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 
 import Pasajeros.PasajerosJframe;
 import Principal.AeropuertoJFrame;
+import Principal.AeropuertoDialogo;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -24,9 +25,6 @@ public class OperativaJFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -40,9 +38,6 @@ public class OperativaJFrame extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public OperativaJFrame() {
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 976, 583);
@@ -67,8 +62,7 @@ public class OperativaJFrame extends JFrame {
 	    JButton btn_ocupacion = new JButton("Ocupacion y sobreventa");
 	    btn_ocupacion.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		
-	    	
+	    		AeropuertoDialogo.ejecutar(OperativaJFrame.this, "cuadro.ocupacion");
 	    	}
 	    });
 	    btn_ocupacion.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -77,8 +71,7 @@ public class OperativaJFrame extends JFrame {
 	    JButton btn_checkin = new JButton("Comprobar check-in");
 	    btn_checkin.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		
-	    		
+	    		AeropuertoDialogo.ejecutar(OperativaJFrame.this, "operativa.checkin", "Codigo de reserva", "Fecha y hora (AAAA-MM-DDThh:mm)");
 	    	}
 	    });
 	    btn_checkin.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -87,8 +80,7 @@ public class OperativaJFrame extends JFrame {
 	    JButton btn_embarques_pendientes = new JButton("Consultar pendientes de embarque");
 	    btn_embarques_pendientes.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		
-	    		
+	    		AeropuertoDialogo.ejecutar(OperativaJFrame.this, "operativa.pendientes", "Codigo de vuelo", "Fecha y hora (AAAA-MM-DDThh:mm)");
 	    	}
 	    });
 	    btn_embarques_pendientes.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -97,8 +89,7 @@ public class OperativaJFrame extends JFrame {
 	    JButton btn_resumen_equipajes = new JButton("Resumen de equipajes por vuelo");
 	    btn_resumen_equipajes.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		
-	    		
+	    		AeropuertoDialogo.ejecutar(OperativaJFrame.this, "operativa.equipajes", "Codigo de vuelo");
 	    	}
 	    });
 	    btn_resumen_equipajes.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -107,7 +98,7 @@ public class OperativaJFrame extends JFrame {
 	    JButton btn_impacto = new JButton("Impacto de una incidencia");
 	    btn_impacto.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		
+	    		AeropuertoDialogo.ejecutar(OperativaJFrame.this, "operativa.incidencia", "Codigo de incidencia");
 	    	}
 	    });
 	    btn_impacto.setFont(new Font("Tahoma", Font.BOLD, 18));

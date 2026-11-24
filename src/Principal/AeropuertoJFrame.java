@@ -46,10 +46,7 @@ public class AeropuertoJFrame extends JFrame {
 			}
 		});
 	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public AeropuertoJFrame() {
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 976, 583);
@@ -89,7 +86,7 @@ public class AeropuertoJFrame extends JFrame {
 	    		
 	    		IncidenciasJFrame incidencias = new IncidenciasJFrame();
 	    		dispose();
-	    		incidencias.setVisible(rootPaneCheckingEnabled);
+	    		incidencias.setVisible(true);
 	    	}
 	    });
 	    btn_incidencias.setFont(new Font("Tahoma", Font.BOLD, 18));

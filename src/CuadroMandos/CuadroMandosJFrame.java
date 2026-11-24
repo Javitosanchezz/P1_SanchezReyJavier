@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Principal.AeropuertoJFrame;
+import Principal.AeropuertoDialogo;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -62,22 +63,24 @@ public class CuadroMandosJFrame extends JFrame {
 	    JButton btn_resumen = new JButton("Resumen General");
 	    btn_resumen.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		
-	    		
+	    		AeropuertoDialogo.ejecutar(CuadroMandosJFrame.this, "cuadro.resumen");
 	    	}
 	    });
 	    btn_resumen.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_resumen);
 	    
 	    JButton btn_ocupacion = new JButton("Ocupacion por Vuelo");
+	    btn_ocupacion.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "cuadro.ocupacion"));
 	    btn_ocupacion.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_ocupacion);
 	    
 	    JButton btn_exportarCSV = new JButton("Exportar informes CSV");
+	    btn_exportarCSV.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "cuadro.exportar"));
 	    btn_exportarCSV.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_exportarCSV);
 	    
 	    JButton btn_diagnostico = new JButton("Diagnostico de datos");
+	    btn_diagnostico.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "cuadro.diagnostico"));
 	    btn_diagnostico.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_diagnostico);
 	    

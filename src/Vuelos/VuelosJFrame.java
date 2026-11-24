@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Principal.AeropuertoJFrame;
+import Principal.AeropuertoDialogo;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -23,9 +24,6 @@ public class VuelosJFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -39,9 +37,6 @@ public class VuelosJFrame extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public VuelosJFrame() {
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 976, 583);
@@ -76,14 +71,17 @@ public class VuelosJFrame extends JFrame {
 	    OPCIONES.add(btn_mostrar);
 	    
 	    JButton btn_insertar = new JButton("Insertar Vuelos");
+	    btn_insertar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "vuelos.crear", "Codigo", "Aerolinea", "Avion", "Estado"));
 	    btn_insertar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_insertar);
 	    
 	    JButton btn_actualizar = new JButton("Actualizar Vuelos");
+	    btn_actualizar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "vuelos.modificar", "Codigo", "Aerolinea", "Avion", "Estado"));
 	    btn_actualizar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_actualizar);
 	    
 	    JButton btn_borrar = new JButton("Borrar Vuelo");
+	    btn_borrar.addActionListener(e -> AeropuertoDialogo.ejecutar(this, "vuelos.borrar", "Codigo"));
 	    btn_borrar.setFont(new Font("Tahoma", Font.BOLD, 18));
 	    OPCIONES.add(btn_borrar);
 	    
